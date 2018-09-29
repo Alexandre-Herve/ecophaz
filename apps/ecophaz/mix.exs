@@ -36,8 +36,9 @@ defmodule Ecophaz.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:postgrex, ">= 0.0.0"},
-      {:ecto, "~> 2.2"}
+      {:ecto, "~> 2.2"},
+      {:ex_machina, "~> 2.2", only: :test},
+      {:postgrex, ">= 0.0.0"}
     ]
   end
 
