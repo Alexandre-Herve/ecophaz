@@ -4,4 +4,6 @@
 # the umbrella root.
 use Mix.Config
 
-import_config "prod.secret.exs"
+config :ecophaz, :auth,
+  seed: System.get_env("AUTH_SEED"),
+  secret: System.get_env("AUTH_SECRET")

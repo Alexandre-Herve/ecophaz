@@ -36,6 +36,8 @@ defmodule Ecophaz.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 1.0"},
+      {:comeonin, "~> 4.0"},
       {:ecto, "~> 2.2"},
       {:ex_machina, "~> 2.2", only: :test},
       {:postgrex, ">= 0.0.0"}

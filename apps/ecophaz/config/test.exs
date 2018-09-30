@@ -12,3 +12,7 @@ config :ecophaz, Ecophaz.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   port: "5433",
   username: "postgres"
+
+config :ecophaz, :auth,
+  seed: "user_token",
+  secret: "CHANGE_ME_k7kTxvFAgeBvAVA0OR1vkPbTi8mZ5m"

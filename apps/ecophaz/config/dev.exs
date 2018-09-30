@@ -12,3 +12,7 @@ config :ecophaz, Ecophaz.Repo,
   hostname: "localhost",
   port: "5433",
   pool_size: 10
+
+config :ecophaz, :auth,
+  seed: "user_token",
+  secret: "CHANGE_ME_k7kTxvFAgeBvAVA0OR1vkPbTi8mZ5m"

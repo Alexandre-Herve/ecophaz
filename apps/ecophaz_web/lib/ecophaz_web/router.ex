@@ -1,11 +1,22 @@
 defmodule EcophazWeb.Router do
   use EcophazWeb, :router
 
-  pipeline :api do
+  pipeline :public_api do
     plug :accepts, ["json"]
   end
 
-  scope "/api", EcophazWeb do
-    pipe_through :api
+  pipeline :private_api do
+    plug :accepts, ["json"]
+    plug EcophazWeb.Plugs.Authenticate
+  end
+
+  scope "/api/v1", EcophazWeb do
+    pipe_through :public_api
+    post "/sessions/sign_in", SessionsController, :create
+    delete "/sessions/sign_out", SessionsController, :delete
+  end
+
+  scope "/api/v1/", EcophazWeb do
+    pipe_through :private_api
   end
 end
