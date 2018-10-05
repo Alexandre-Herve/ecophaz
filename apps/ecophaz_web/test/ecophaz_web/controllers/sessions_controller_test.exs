@@ -44,10 +44,4 @@ defmodule EcophazWeb.SessionsControllerTest do
 
     assert response(conn, 204)
   end
-
-  defp get_user do
-    build(:user)
-    |> Accounts.User.changeset(%{password: "Azerty12"})
-    |> Repo.insert!()
-  end
 end

@@ -38,10 +38,4 @@ defmodule Ecophaz.AccountsTest do
   test "get_token returns nil for unknown token" do
     assert is_nil(Accounts.get_token("123"))
   end
-
-  defp get_user do
-    build(:user)
-    |> Accounts.User.changeset(%{password: "Azerty12"})
-    |> Repo.insert!()
-  end
 end

@@ -18,5 +18,6 @@ defmodule EcophazWeb.Router do
 
   scope "/api/v1/", EcophazWeb do
     pipe_through :private_api
+    resources "/moods", MoodController, except: [:new, :edit]
   end
 end
