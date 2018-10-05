@@ -13,6 +13,10 @@ defmodule EcophazWeb.ConnCase do
   of the test unless the test case is marked as async.
   """
 
+  import Ecophaz.Factory
+  alias Ecophaz.{Accounts, Repo}
+  alias Plug.Conn
+
   use ExUnit.CaseTemplate
 
   using do
@@ -26,13 +30,31 @@ defmodule EcophazWeb.ConnCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Ecophaz.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Ecophaz.Repo, {:shared, self()})
     end
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
-  end
 
+    conn = Phoenix.ConnTest.build_conn()
+
+    if tags[:logged_in] do
+      user =
+        build(:user)
+        |> Accounts.User.changeset(%{password: "Azerty12"})
+        |> Repo.insert!()
+
+      {:ok, token} = Accounts.sign_in(user.email, "Azerty12")
+
+      conn =
+        conn
+        |> Conn.assign(:signed_user, user)
+        |> Conn.put_req_header("authorization", "Bearer #{token.token}")
+
+      {:ok, conn: conn, user: user, token: token}
+    else
+      {:ok, conn: conn}
+    end
+  end
 end
