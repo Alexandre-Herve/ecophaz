@@ -18,6 +18,10 @@ config :ecophaz_web, EcophazWeb.Endpoint,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
+config :ecophaz_web, :auth,
+  seed: System.get_env("AUTH_SEED"),
+  secret: System.get_env("AUTH_SECRET")
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

@@ -2,7 +2,7 @@ defmodule EcophazWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", EcophazWeb.RoomChannel
+  # channel "mood:*", EcophazWeb.MoodChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -15,7 +15,12 @@ defmodule EcophazWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket, _connect_info) do
+  def connect(%{"token" => token}, socket, _connect_info) do
+    # case Accounts.get_token(token) do
+
+    # {:error, _} ->
+    # :error
+    # end
     {:ok, socket}
   end
 
@@ -29,5 +34,5 @@ defmodule EcophazWeb.UserSocket do
   #     EcophazWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
+  def id(socket), do: "user_socket:#{socket.assigns.signed_user.id}"
 end

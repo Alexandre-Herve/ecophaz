@@ -1,44 +1,44 @@
 defmodule Ecophaz.Accounts do
-  alias Ecophaz.Services.Authenticator
   alias Ecophaz.Repo
-  alias Ecophaz.Accounts.{AuthToken, User}
 
-  def sign_in(email, password) do
-    case Comeonin.Bcrypt.check_pass(Repo.get_by(User, email: email), password) do
-      {:ok, user} ->
-        token = Authenticator.generate_token(user)
+  alias Ecophaz.Accounts.{
+    AuthToken,
+    User
+  }
 
-        user
-        |> Ecto.build_assoc(:auth_tokens, %{token: token})
-        |> Repo.insert()
+  import Ecto.Query
 
-      err ->
-        err
-    end
+  def create_token(attrs \\ %{}) do
+    %AuthToken{}
+    |> AuthToken.changeset(attrs)
+    |> Repo.insert()
   end
 
-  def sign_out(token) do
-    case Authenticator.verify_token(token) do
-      {:ok, token} ->
-        case Repo.get_by(AuthToken, %{token: token}) do
-          nil -> {:error, :not_found}
-          auth_token -> Repo.delete(auth_token)
-        end
-
-      _error ->
-        {:error, :invalid_auth_header}
-    end
+  def create_token_for_user(user, params) do
+    user
+    |> Ecto.build_assoc(:auth_tokens, params)
+    |> Repo.insert()
   end
 
-  def get_token(token) do
-    with {:ok, token} <- Authenticator.verify_token(token),
-         auth_token <-
-           AuthToken
-           |> Ecophaz.Repo.get_by(%{token: token, revoked: false})
-           |> Repo.preload(:user) do
-      auth_token
-    else
-      _ -> nil
-    end
+  def get_token!(id), do: Repo.get!(AuthToken, id)
+
+  def get_token_by(params) do
+    AuthToken
+    |> preload(:user)
+    |> Repo.get_by(params)
+  end
+
+  def delete_token(%AuthToken{} = token) do
+    Repo.delete(token)
+  end
+
+  def change_token(%AuthToken{} = token) do
+    AuthToken.changeset(token, %{})
+  end
+
+  def get_user!(id), do: Repo.get!(User, id)
+
+  def get_user_by(params) do
+    User |> Repo.get_by(params)
   end
 end

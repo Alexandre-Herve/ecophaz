@@ -9,3 +9,7 @@ use Mix.Config
 config :ecophaz_web, EcophazWeb.Endpoint,
   http: [port: 4001],
   server: false
+
+config :ecophaz_web, :auth,
+  seed: "user_token",
+  secret: "CHANGE_ME_k7kTxvFAgeBvAVA0OR1vkPbTi8mZ5m"

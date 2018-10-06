@@ -41,3 +41,6 @@ config :ecophaz_web, EcophazWeb.Endpoint,
 # configured to run both http and https servers on
 # different ports.
 
+config :ecophaz_web, :auth,
+  seed: "user_token",
+  secret: "CHANGE_ME_k7kTxvFAgeBvAVA0OR1vkPbTi8mZ5m"

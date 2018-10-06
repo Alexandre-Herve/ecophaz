@@ -15,6 +15,7 @@ defmodule EcophazWeb.ConnCase do
 
   import Ecophaz.Factory
   alias Ecophaz.{Accounts, Repo}
+  alias EcophazWeb.Services.Authenticator
   alias Plug.Conn
 
   use ExUnit.CaseTemplate
@@ -45,7 +46,7 @@ defmodule EcophazWeb.ConnCase do
         |> Accounts.User.changeset(%{password: "Azerty12"})
         |> Repo.insert!()
 
-      {:ok, token} = Accounts.sign_in(user.email, "Azerty12")
+      {:ok, token} = Authenticator.sign_in(user.email, "Azerty12")
 
       conn =
         conn

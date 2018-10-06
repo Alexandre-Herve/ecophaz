@@ -20,8 +20,8 @@ defmodule EcophazWeb.MoodControllerTest do
 
   describe "create mood" do
     @tag :logged_in
-    test "renders mood when data is valid", %{conn: conn} do
-      mood_params = params_for(:mood)
+    test "renders mood when data is valid", %{conn: conn, user: user} do
+      mood_params = params_for(:mood, user: user)
       conn = post(conn, Routes.mood_path(conn, :create), mood: mood_params)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 

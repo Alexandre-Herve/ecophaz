@@ -5,8 +5,8 @@ defmodule EcophazWeb.Plugs.Authenticate do
   alias Ecophaz.Accounts
 
   def call(conn, _default) do
-    with {:ok, token} <- Authenticator.extract_token(conn),
-         token when not is_nil(token) <- Accounts.get_token(token) do
+    with {:ok, token} <- Authenticator.get_token(conn),
+         token when not is_nil(token) <- Accounts.get_token_by(%{token: token}) do
       authorized(conn, token.user)
     else
       _ -> unauthorized(conn)

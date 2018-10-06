@@ -4,15 +4,15 @@ defmodule Ecophaz.Accounts.AuthToken do
 
   alias Ecophaz.Accounts.User
 
+  @required_fields ~w(token user_id)a
   @optional_fields ~w()a
-  @required_fields ~w(token)a
 
   schema "auth_tokens" do
-    field :revoked, :boolean, default: false
-    field :revoked_at, :utc_datetime
-    field :token, :string
+    field(:revoked, :boolean, default: false)
+    field(:revoked_at, :utc_datetime)
+    field(:token, :string)
 
-    belongs_to :user, User
+    belongs_to(:user, User)
 
     timestamps()
   end
