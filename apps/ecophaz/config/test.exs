@@ -10,5 +10,5 @@ config :ecophaz, Ecophaz.Repo,
   hostname: "localhost",
   password: "postgres",
   pool: Ecto.Adapters.SQL.Sandbox,
-  port: "5432",
+  port: "5433",
   username: "postgres"
