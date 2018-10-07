@@ -115,6 +115,14 @@ defmodule EcophazWeb.MoodControllerTest do
       conn = post(conn, Routes.mood_path(conn, :like, mood))
       assert response(conn, 201)
     end
+
+    @tag :logged_in
+    test "returns bad request when mood is already liked", %{conn: conn, user: user} do
+      mood = insert(:mood, user_id: user.id)
+      insert(:like, user_id: user.id, mood_id: mood.id)
+      conn = post(conn, Routes.mood_path(conn, :like, mood))
+      assert response(conn, 400)
+    end
   end
 
   describe "unlike mood" do
@@ -124,6 +132,13 @@ defmodule EcophazWeb.MoodControllerTest do
       insert(:like, user: user, mood: mood)
       conn = delete(conn, Routes.mood_path(conn, :unlike, mood))
       assert response(conn, 204)
+    end
+
+    @tag :logged_in
+    test "returns 404 when mood was not previously liked", %{conn: conn, user: user} do
+      mood = insert(:mood, user_id: user.id)
+      conn = delete(conn, Routes.mood_path(conn, :unlike, mood))
+      assert response(conn, 404)
     end
   end
 end

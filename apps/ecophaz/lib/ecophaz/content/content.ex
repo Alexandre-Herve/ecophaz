@@ -32,21 +32,27 @@ defmodule Ecophaz.Content do
     Mood.changeset(mood, %{})
   end
 
-  def like_mood(%Mood{id: mood_id}, user_id) do
+  @spec like(%Mood{}, binary) ::
+          nil | {:error, :bad_request} | {:error, %Ecto.Changeset{}} | {:ok, %Like{}}
+
+  def like(%Mood{id: mood_id}, user_id) do
     Like
     |> Repo.get_by(mood_id: mood_id, user_id: user_id)
     |> case do
       nil -> %Like{mood_id: mood_id, user_id: user_id} |> Repo.insert()
-      _ -> {:error, :already_liked}
+      _ -> {:error, :bad_request}
     end
   end
 
-  def unlike_mood(%Mood{id: mood_id}, user_id) do
+  @spec unlike(%Mood{}, binary) ::
+          nil | {:error, :not_found} | {:error, %Ecto.Changeset{}} | {:ok, %Like{}}
+
+  def unlike(%Mood{id: mood_id}, user_id) do
     Like
     |> Repo.get_by(mood_id: mood_id, user_id: user_id)
     |> case do
       %Like{} = like -> like |> Repo.delete()
-      _ -> {:error, :not_liked}
+      _ -> {:error, :not_found}
     end
   end
 end

@@ -71,7 +71,7 @@ defmodule Ecophaz.ContentTest do
       assert %Ecto.Changeset{} = Content.change_mood(mood)
     end
 
-    test "like_mood/2 returns a like" do
+    test "like/2 a mood returns a like" do
       user = insert(:user)
       user_id = user.id
       mood = insert(:mood, user: user)
@@ -81,28 +81,28 @@ defmodule Ecophaz.ContentTest do
               %Content.Like{
                 user_id: ^user_id,
                 mood_id: ^mood_id
-              }} = mood |> Content.like_mood(user_id)
+              }} = mood |> Content.like(user_id)
     end
 
-    test "like_mood/2 returns an error when the like exists" do
+    test "like/2 returns an error when the like exists" do
       user = insert(:user)
       user_id = user.id
       mood = insert(:mood, user: user)
       insert(:like, user: user, mood: mood)
-      assert {:error, :already_liked} = mood |> Content.like_mood(user_id)
+      assert {:error, :bad_request} = mood |> Content.like(user_id)
     end
 
-    test "unlike_mood/2 deletes associated like" do
+    test "unlike/2 deletes associated like" do
       user = insert(:user)
       mood = insert(:mood, user: user)
       insert(:like, user: user, mood: mood)
-      assert {:ok, %Like{}} = mood |> Content.unlike_mood(user.id)
+      assert {:ok, %Like{}} = mood |> Content.unlike(user.id)
     end
 
-    test "unlike_mood/2 returns an error when the like doesn't exit" do
+    test "unlike/2 returns an error when the like doesn't exit" do
       user = insert(:user)
       mood = insert(:mood, user: user)
-      assert {:error, :not_liked} = mood |> Content.unlike_mood(user.id)
+      assert {:error, :not_found} = mood |> Content.unlike(user.id)
     end
   end
 end

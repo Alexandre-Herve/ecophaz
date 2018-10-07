@@ -53,7 +53,7 @@ defmodule EcophazWeb.MoodController do
     mood = Content.get_mood!(id)
 
     with :ok <- is_authorized(user.id, mood.user_id),
-         {:ok, %Like{}} <- mood |> Content.like_mood(user.id) do
+         {:ok, %Like{}} <- mood |> Content.like(user.id) do
       conn |> send_resp(:created, "")
     end
   end
@@ -63,7 +63,7 @@ defmodule EcophazWeb.MoodController do
     mood = Content.get_mood!(id)
 
     with :ok <- is_authorized(user.id, mood.user_id),
-         {:ok, _mood} <- mood |> Content.unlike_mood(user.id) do
+         {:ok, %Like{}} <- mood |> Content.unlike(user.id) do
       conn |> send_resp(:no_content, "")
     end
   end

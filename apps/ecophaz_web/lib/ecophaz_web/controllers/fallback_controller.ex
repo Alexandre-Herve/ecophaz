@@ -39,4 +39,11 @@ defmodule EcophazWeb.FallbackController do
     |> put_view(EcophazWeb.ErrorView)
     |> render(:"400")
   end
+
+  def call(conn, _error) do
+    conn
+    |> put_status(:internal_server_error)
+    |> put_view(EcophazWeb.ErrorView)
+    |> render(:"500")
+  end
 end
