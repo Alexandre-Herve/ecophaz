@@ -48,7 +48,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
   describe "update <%= schema.singular %>" do
     @tag :logged_in
     test "doesn't update someone else's <%= schema.singular %>", %{conn: conn, user: user} do
-      other_user = get_user()
+      other_user = insert(:user)
       <%= schema.singular %> = insert(:<%= schema.singular %>, user_id: other_user.id)
       <%= schema.singular %>_params = params_for(:<%= schema.singular %>, user_id: user.id)
       conn = put(conn, Routes.<%= schema.singular %>_path(conn, :update, <%= schema.singular %>), <%= schema.singular %>: <%= schema.singular %>_params)
@@ -89,7 +89,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
   describe "delete <%= schema.singular %>" do
     @tag :logged_in
     test "doesn't delete someone else's <%= schema.singular %>", %{conn: conn} do
-      other_user = get_user()
+      other_user = insert(:user)
       <%= schema.singular %> = insert(:<%= schema.singular %>, user_id: other_user.id)
       conn = delete(conn, Routes.<%= schema.singular %>_path(conn, :delete, <%= schema.singular %>))
       assert json_response(conn, 403)

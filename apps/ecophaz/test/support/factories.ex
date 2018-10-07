@@ -20,12 +20,6 @@ defmodule Ecophaz.Factory do
     }
   end
 
-  def get_user do
-    build(:user)
-    |> Accounts.User.changeset(%{password: "Azerty12"})
-    |> Repo.insert!()
-  end
-
   # Content
   def like_factory do
     %Content.Like{}

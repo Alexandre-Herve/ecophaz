@@ -14,7 +14,6 @@ defmodule EcophazWeb.ConnCase do
   """
 
   import Ecophaz.Factory
-  alias Ecophaz.{Accounts, Repo}
   alias EcophazWeb.Services.Authenticator
   alias Plug.Conn
 
@@ -41,11 +40,7 @@ defmodule EcophazWeb.ConnCase do
     conn = Phoenix.ConnTest.build_conn()
 
     if tags[:logged_in] do
-      user =
-        build(:user)
-        |> Accounts.User.changeset(%{password: "Azerty12"})
-        |> Repo.insert!()
-
+      user = insert(:user)
       {:ok, token} = Authenticator.sign_in(user.email, "Azerty12")
 
       conn =

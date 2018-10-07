@@ -1,7 +1,6 @@
 defmodule EcophazWeb.MoodView do
   use EcophazWeb, :view
   alias EcophazWeb.MoodView
-  import EcophazWeb.ViewHelpers
 
   @attributes ~w(id image text type likes)a
 

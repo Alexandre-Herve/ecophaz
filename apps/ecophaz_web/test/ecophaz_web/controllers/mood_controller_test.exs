@@ -48,7 +48,7 @@ defmodule EcophazWeb.MoodControllerTest do
   describe "update mood" do
     @tag :logged_in
     test "doesn't update someone else's mood", %{conn: conn, user: user} do
-      other_user = get_user()
+      other_user = insert(:user)
       mood = insert(:mood, user_id: other_user.id)
       mood_params = params_for(:mood, user_id: user.id)
       conn = put(conn, Routes.mood_path(conn, :update, mood), mood: mood_params)
@@ -90,7 +90,7 @@ defmodule EcophazWeb.MoodControllerTest do
   describe "delete mood" do
     @tag :logged_in
     test "doesn't delete someone else's mood", %{conn: conn} do
-      other_user = get_user()
+      other_user = insert(:user)
       mood = insert(:mood, user_id: other_user.id)
       conn = delete(conn, Routes.mood_path(conn, :delete, mood))
       assert json_response(conn, 403)

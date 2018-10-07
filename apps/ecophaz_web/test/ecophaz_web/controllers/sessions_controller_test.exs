@@ -10,7 +10,7 @@ defmodule EcophazWeb.SessionsControllerTest do
   end
 
   test "create session returns token", %{conn: conn} do
-    user = get_user()
+    user = insert(:user)
     params = %{"email" => user.email, "password" => "Azerty12"}
     conn = post(conn, Routes.sessions_path(conn, :create, params))
     assert %{"data" => %{"token" => _token}} = json_response(conn, 200)
@@ -31,7 +31,7 @@ defmodule EcophazWeb.SessionsControllerTest do
   end
 
   test "delete session sends 204 for correct headers", %{conn: conn} do
-    user = get_user()
+    user = insert(:user)
     {:ok, token} = Authenticator.sign_in(user.email, "Azerty12")
 
     conn =

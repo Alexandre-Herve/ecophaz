@@ -9,7 +9,7 @@ defmodule Ecophaz.ContentTest do
     alias Ecophaz.Content.Mood
 
     test "list_moods/0 returns all moods" do
-      user = get_user()
+      user = insert(:user)
       mood = insert(:mood, user: user)
       moods = Content.list_moods()
       assert moods |> Enum.map(& &1.id) == [mood] |> Enum.map(& &1.id)
@@ -17,13 +17,13 @@ defmodule Ecophaz.ContentTest do
     end
 
     test "get_mood!/1 returns the mood with given id" do
-      user = get_user()
+      user = insert(:user)
       mood = insert(:mood, user: user)
       assert Content.get_mood!(mood.id).id == mood.id
     end
 
     test "create_mood/1 with valid data creates a mood" do
-      user = get_user()
+      user = insert(:user)
       mood_params = params_for(:mood, user_id: user.id)
       assert {:ok, %Mood{} = mood} = Content.create_mood(mood_params)
       assert mood.text == mood_params.text
@@ -36,7 +36,7 @@ defmodule Ecophaz.ContentTest do
     end
 
     test "update_mood/2 with valid data updates the mood" do
-      user = get_user()
+      user = insert(:user)
       mood = insert(:mood, user: user)
       mood_params = params_for(:mood)
 
@@ -51,7 +51,7 @@ defmodule Ecophaz.ContentTest do
     end
 
     test "update_mood/2 with invalid data returns error changeset" do
-      user = get_user()
+      user = insert(:user)
       mood = insert(:mood, user: user)
       mood_params = build(:mood) |> invalidate
       assert {:error, %Ecto.Changeset{}} = Content.update_mood(mood, mood_params)
@@ -59,20 +59,20 @@ defmodule Ecophaz.ContentTest do
     end
 
     test "delete_mood/1 deletes the mood" do
-      user = get_user()
+      user = insert(:user)
       mood = insert(:mood, user: user)
       assert {:ok, %Mood{}} = Content.delete_mood(mood)
       assert_raise Ecto.NoResultsError, fn -> Content.get_mood!(mood.id) end
     end
 
     test "change_mood/1 returns a mood changeset" do
-      user = get_user()
+      user = insert(:user)
       mood = insert(:mood, user: user)
       assert %Ecto.Changeset{} = Content.change_mood(mood)
     end
 
     test "like_mood/2 returns a like" do
-      user = get_user()
+      user = insert(:user)
       user_id = user.id
       mood = insert(:mood, user: user)
       mood_id = mood.id
@@ -83,7 +83,7 @@ defmodule Ecophaz.ContentTest do
     end
 
     test "like_mood/2 returns an error when the like exists" do
-      user = get_user()
+      user = insert(:user)
       user_id = user.id
       mood = insert(:mood, user: user)
       insert(:like, user: user, mood: mood)
@@ -91,14 +91,14 @@ defmodule Ecophaz.ContentTest do
     end
 
     test "unlike_mood/2 deletes associated like" do
-      user = get_user()
+      user = insert(:user)
       mood = insert(:mood, user: user)
       insert(:like, user: user, mood: mood)
       assert {:ok, %Like{}} = mood |> Content.unlike_mood(user.id)
     end
 
     test "unlike_mood/2 returns an error when the like doesn't exit" do
-      user = get_user()
+      user = insert(:user)
       mood = insert(:mood, user: user)
       assert {:error, :not_liked} = mood |> Content.unlike_mood(user.id)
     end

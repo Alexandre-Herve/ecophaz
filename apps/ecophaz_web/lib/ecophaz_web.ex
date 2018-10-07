@@ -37,6 +37,7 @@ defmodule EcophazWeb do
 
       import EcophazWeb.ErrorHelpers
       import EcophazWeb.Gettext
+      import EcophazWeb.ViewHelpers
       alias EcophazWeb.Router.Helpers, as: Routes
     end
   end
