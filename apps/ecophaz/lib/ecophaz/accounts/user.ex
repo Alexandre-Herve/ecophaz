@@ -1,6 +1,8 @@
 defmodule Ecophaz.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Ecophaz.Accounts.{AuthToken}
+  alias Ecophaz.Content.{Like, Mood}
 
   @required_fields ~w(email password name)a
   @optional_fields ~w()a
@@ -10,8 +12,9 @@ defmodule Ecophaz.Accounts.User do
     field(:name, :string)
     field(:password, :string, virtual: true)
     field(:password_hash, :string)
-
-    has_many(:auth_tokens, Ecophaz.Accounts.AuthToken)
+    has_many(:auth_tokens, AuthToken)
+    has_many(:moods, Mood)
+    many_to_many(:liked_moods, Mood, join_through: Like)
 
     timestamps()
   end

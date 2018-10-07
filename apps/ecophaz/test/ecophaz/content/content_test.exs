@@ -69,5 +69,18 @@ defmodule Ecophaz.ContentTest do
       mood = insert(:mood, user: user)
       assert %Ecto.Changeset{} = Content.change_mood(mood)
     end
+
+    test "like_mood/2 returns a mood" do
+      user = get_user()
+      user_id = user.id
+
+      mood = insert(:mood, user: user)
+      mood_id = mood.id
+
+      assert {:ok, %Content.Like{
+        user_id: ^user_id,
+        mood_id: ^mood_id
+      }} = Content.like_mood(user, mood_id)
+    end
   end
 end
