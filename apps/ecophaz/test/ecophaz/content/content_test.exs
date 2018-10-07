@@ -76,10 +76,12 @@ defmodule Ecophaz.ContentTest do
       user_id = user.id
       mood = insert(:mood, user: user)
       mood_id = mood.id
-      assert {:ok, %Content.Like{
-        user_id: ^user_id,
-        mood_id: ^mood_id
-      }} = mood |> Content.like_mood(user_id)
+
+      assert {:ok,
+              %Content.Like{
+                user_id: ^user_id,
+                mood_id: ^mood_id
+              }} = mood |> Content.like_mood(user_id)
     end
 
     test "like_mood/2 returns an error when the like exists" do

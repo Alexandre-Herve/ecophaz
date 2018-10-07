@@ -36,17 +36,16 @@ defmodule Ecophaz.Content do
     Like
     |> Repo.get_by(mood_id: mood_id, user_id: user_id)
     |> case do
-      nil -> %Like{mood_id: mood_id, user_id: user_id} |> Repo.insert
+      nil -> %Like{mood_id: mood_id, user_id: user_id} |> Repo.insert()
       _ -> {:error, :already_liked}
     end
-
   end
 
   def unlike_mood(%Mood{id: mood_id}, user_id) do
     Like
     |> Repo.get_by(mood_id: mood_id, user_id: user_id)
     |> case do
-      %Like{} = like -> like |> Repo.delete
+      %Like{} = like -> like |> Repo.delete()
       _ -> {:error, :not_liked}
     end
   end
