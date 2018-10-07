@@ -2,7 +2,7 @@ defmodule EcophazWeb.MoodController do
   use EcophazWeb, :controller
 
   alias Ecophaz.Content
-  alias Ecophaz.Content.Mood
+  alias Ecophaz.Content.{Like, Mood}
 
   action_fallback EcophazWeb.FallbackController
 
@@ -45,6 +45,26 @@ defmodule EcophazWeb.MoodController do
     with :ok <- is_authorized(user.id, mood.user_id),
          {:ok, %Mood{}} <- Content.delete_mood(mood) do
       send_resp(conn, :no_content, "")
+    end
+  end
+
+  def like(conn, %{"id" => id}) do
+    user = conn.assigns.signed_user
+    mood = Content.get_mood!(id)
+
+    with :ok <- is_authorized(user.id, mood.user_id),
+         {:ok, %Like{}} <- mood |> Content.like_mood(user.id) do
+      conn |> send_resp(:created, "")
+    end
+  end
+
+  def unlike(conn, %{"id" => id}) do
+    user = conn.assigns.signed_user
+    mood = Content.get_mood!(id)
+
+    with :ok <- is_authorized(user.id, mood.user_id),
+         {:ok, _mood} <- mood |> Content.unlike_mood(user.id) do
+      conn |> send_resp(:no_content, "")
     end
   end
 

@@ -107,4 +107,23 @@ defmodule EcophazWeb.MoodControllerTest do
       end
     end
   end
+
+  describe "like mood" do
+    @tag :logged_in
+    test "likes a mood", %{conn: conn, user: user} do
+      mood = insert(:mood, user_id: user.id)
+      conn = post(conn, Routes.mood_path(conn, :like, mood))
+      assert response(conn, 201)
+    end
+  end
+
+  describe "unlike mood" do
+    @tag :logged_in
+    test "unlikes a mood", %{conn: conn, user: user} do
+      mood = insert(:mood, user_id: user.id)
+      insert(:like, user: user, mood: mood)
+      conn = delete(conn, Routes.mood_path(conn, :unlike, mood))
+      assert response(conn, 204)
+    end
+  end
 end
