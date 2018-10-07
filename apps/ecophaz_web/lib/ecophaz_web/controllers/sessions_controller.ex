@@ -1,11 +1,5 @@
 defmodule EcophazWeb.SessionsController do
   use EcophazWeb, :controller
-  alias Ecophaz.Accounts
-
-  alias Ecophaz.Accounts.{
-    AuthToken,
-    User
-  }
 
   alias EcophazWeb.Services.Authenticator
 

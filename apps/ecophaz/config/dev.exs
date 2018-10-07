@@ -10,7 +10,7 @@ config :ecophaz, Ecophaz.Repo,
   password: "postgres",
   database: "ecophaz_dev",
   hostname: "localhost",
-  port: "5433",
+  port: "5432",
   pool_size: 10
 
 config :ecophaz, :auth,

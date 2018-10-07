@@ -15,12 +15,7 @@ defmodule EcophazWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(%{"token" => token}, socket, _connect_info) do
-    # case Accounts.get_token(token) do
-
-    # {:error, _} ->
-    # :error
-    # end
+  def connect(_params, socket, _connect_info) do
     {:ok, socket}
   end
 
