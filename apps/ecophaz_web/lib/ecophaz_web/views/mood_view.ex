@@ -1,6 +1,9 @@
 defmodule EcophazWeb.MoodView do
   use EcophazWeb, :view
   alias EcophazWeb.MoodView
+  import EcophazWeb.ViewHelpers
+
+  @attributes ~w(id image text type likes)a
 
   def render("index.json", %{moods: moods}) do
     %{data: render_many(moods, MoodView, "mood.json")}
@@ -11,8 +14,8 @@ defmodule EcophazWeb.MoodView do
   end
 
   def render("mood.json", %{mood: mood}) do
-    %{id: mood.id,
-      text: mood.text,
-      type: mood.type}
+    mood
+    |> Map.take(@attributes)
+    |> put_loaded_assoc(:likes, LikeView, "index.json", :likes)
   end
 end

@@ -15,7 +15,8 @@ defmodule Ecophaz.Factory do
   def user_factory do
     %Accounts.User{
       email: sequence(:email, &"email-#{&1}@example.com"),
-      name: sequence(:name, &"Alfred#{&1}")
+      name: sequence(:name, &"Alfred#{&1}"),
+      password_hash: "$2b$12$mVNhMZOxf1XrZ5kwxzZ0h.o5gSZEJ0cjYCDaS4C4Xr1DEWL0FHImC"
     }
   end
 
@@ -26,8 +27,13 @@ defmodule Ecophaz.Factory do
   end
 
   # Content
+  def like_factory do
+    %Content.Like{}
+  end
+
   def mood_factory do
     %Content.Mood{
+      image: sequence(:image, &"image-#{&1}"),
       text: sequence(:text, &"text-#{&1}"),
       type: "joy"
     }

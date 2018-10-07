@@ -5,6 +5,7 @@ defmodule Ecophaz.Repo.Migrations.CreateMoods do
     create table(:moods) do
       add :text, :string
       add :type, :string
+      add :image, :string
       add :user_id, references(:users, on_delete: :nilify_all)
 
       timestamps()

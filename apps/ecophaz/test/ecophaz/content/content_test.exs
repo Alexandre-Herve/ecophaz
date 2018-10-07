@@ -2,6 +2,7 @@ defmodule Ecophaz.ContentTest do
   use Ecophaz.DataCase
 
   alias Ecophaz.Content
+  alias Ecophaz.Content.{Like}
   import Ecophaz.Factory
 
   describe "moods" do
@@ -70,17 +71,36 @@ defmodule Ecophaz.ContentTest do
       assert %Ecto.Changeset{} = Content.change_mood(mood)
     end
 
-    test "like_mood/2 returns a mood" do
+    test "like_mood/2 returns a like" do
       user = get_user()
       user_id = user.id
-
       mood = insert(:mood, user: user)
       mood_id = mood.id
-
       assert {:ok, %Content.Like{
         user_id: ^user_id,
         mood_id: ^mood_id
-      }} = Content.like_mood(user, mood_id)
+      }} = mood |> Content.like_mood(user_id)
+    end
+
+    test "like_mood/2 returns an error when the like exists" do
+      user = get_user()
+      user_id = user.id
+      mood = insert(:mood, user: user)
+      insert(:like, user: user, mood: mood)
+      assert {:error, :already_liked} = mood |> Content.like_mood(user_id)
+    end
+
+    test "unlike_mood/2 deletes associated like" do
+      user = get_user()
+      mood = insert(:mood, user: user)
+      insert(:like, user: user, mood: mood)
+      assert {:ok, %Like{}} = mood |> Content.unlike_mood(user.id)
+    end
+
+    test "unlike_mood/2 returns an error when the like doesn't exit" do
+      user = get_user()
+      mood = insert(:mood, user: user)
+      assert {:error, :not_liked} = mood |> Content.unlike_mood(user.id)
     end
   end
 end

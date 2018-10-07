@@ -4,8 +4,6 @@ defmodule Ecophaz.Content do
   """
   import Ecto.Query, warn: false
   alias Ecophaz.Repo
-
-  alias Ecophaz.Accounts.{User}
   alias Ecophaz.Content.{Like, Mood}
 
   def list_moods do
@@ -34,7 +32,22 @@ defmodule Ecophaz.Content do
     Mood.changeset(mood, %{})
   end
 
-  def like_mood(%User{id: user_id}, mood_id) do
-    %Like{mood_id: mood_id, user_id: user_id} |> Repo.insert
+  def like_mood(%Mood{id: mood_id}, user_id) do
+    Like
+    |> Repo.get_by(mood_id: mood_id, user_id: user_id)
+    |> case do
+      nil -> %Like{mood_id: mood_id, user_id: user_id} |> Repo.insert
+      _ -> {:error, :already_liked}
+    end
+
+  end
+
+  def unlike_mood(%Mood{id: mood_id}, user_id) do
+    Like
+    |> Repo.get_by(mood_id: mood_id, user_id: user_id)
+    |> case do
+      %Like{} = like -> like |> Repo.delete
+      _ -> {:error, :not_liked}
+    end
   end
 end

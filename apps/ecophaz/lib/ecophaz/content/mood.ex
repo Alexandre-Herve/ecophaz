@@ -1,18 +1,19 @@
 defmodule Ecophaz.Content.Mood do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Ecophaz.Accounts
   alias Ecophaz.Accounts.{User}
   alias Ecophaz.Content.{Like}
 
   @required_fields ~w(text type user_id)a
-  @optional_fields ~w()a
+  @optional_fields ~w(image)a
   @types ~w(joy anger)
 
   schema "moods" do
     belongs_to :user, User
+    field :image, :string
     field :text, :string
     field :type, :string
+    has_many :likes, Like
     many_to_many :likers, User, join_through: Like
 
     timestamps()
