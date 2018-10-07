@@ -6,6 +6,8 @@ defmodule Ecophaz.Content.Mood do
   @optional_fields ~w()a
   @required_fields ~w(text type)a
 
+  @types ~w(joy anger)
+
   schema "moods" do
     field :text, :string
     field :type, :string
@@ -19,5 +21,6 @@ defmodule Ecophaz.Content.Mood do
     mood
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> validate_inclusion(:type, @types)
   end
 end
