@@ -32,8 +32,10 @@ defmodule Ecophaz.Content do
     Mood.changeset(mood, %{})
   end
 
-  @spec like(%Mood{}, binary) ::
-          nil | {:error, :bad_request} | {:error, %Ecto.Changeset{}} | {:ok, %Like{}}
+  @spec like(
+          %Mood{},
+          binary
+        ) :: nil | {:error, :bad_request} | {:error, %Ecto.Changeset{}} | {:ok, %Like{}}
 
   def like(%Mood{id: mood_id}, user_id) do
     Like
@@ -44,8 +46,10 @@ defmodule Ecophaz.Content do
     end
   end
 
-  @spec unlike(%Mood{}, binary) ::
-          nil | {:error, :not_found} | {:error, %Ecto.Changeset{}} | {:ok, %Like{}}
+  @spec unlike(
+          %Mood{},
+          binary
+        ) :: nil | {:error, :not_found} | {:error, %Ecto.Changeset{}} | {:ok, %Like{}}
 
   def unlike(%Mood{id: mood_id}, user_id) do
     Like
