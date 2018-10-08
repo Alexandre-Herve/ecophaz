@@ -28,9 +28,21 @@ defmodule Ecophaz.AccountsTest do
   end
 
   describe "users" do
+    alias Ecophaz.Accounts.User
+
     test "get_user!/1 returns the user with given id" do
       user = insert(:user)
       assert Accounts.get_user!(user.id).id == user.id
+    end
+
+    test "create_user creates a user" do
+      user_params = %{
+        name: "Alfred",
+        email: "coucou@lol.com",
+        password: "Azerty12"
+      }
+
+      assert {:ok, %User{}} = Accounts.create_user(user_params)
     end
   end
 end

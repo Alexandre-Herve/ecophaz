@@ -2,6 +2,8 @@ defmodule EcophazWeb.UserView do
   use EcophazWeb, :view
   alias EcophazWeb.UserView
 
+  @attributes ~w(id email name)
+
   def render("index.json", %{users: users}) do
     %{data: render_many(users, UserView, "user.json")}
   end
@@ -11,6 +13,7 @@ defmodule EcophazWeb.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id, email: user.email}
+    user
+    |> Map.take(@attributes)
   end
 end

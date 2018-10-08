@@ -41,4 +41,11 @@ defmodule Ecophaz.Accounts do
   def get_user_by(params) do
     User |> Repo.get_by(params)
   end
+
+  @spec create_user(Map) :: {:ok, %User{}} | {:error, %Ecto.Changeset{}}
+  def create_user(params) do
+    %User{}
+    |> User.changeset(params)
+    |> Repo.insert()
+  end
 end
