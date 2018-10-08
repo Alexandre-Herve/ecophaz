@@ -37,13 +37,14 @@ defmodule EcophazWeb.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, github: "phoenixframework/phoenix", override: true},
-      {:phoenix_pubsub, "~> 1.1"},
-      {:phoenix_ecto, "~> 3.2"},
-      {:gettext, "~> 0.11"},
+      {:bamboo, "~> 1.1"},
+      {:cowboy, "~> 1.0"},
       {:ecophaz, in_umbrella: true},
+      {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:cowboy, "~> 1.0"}
+      {:phoenix, github: "phoenixframework/phoenix", override: true},
+      {:phoenix_ecto, "~> 3.2"},
+      {:phoenix_pubsub, "~> 1.1"}
     ]
   end
 

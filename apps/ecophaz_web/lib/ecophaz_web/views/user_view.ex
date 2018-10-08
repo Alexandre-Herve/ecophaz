@@ -2,7 +2,7 @@ defmodule EcophazWeb.UserView do
   use EcophazWeb, :view
   alias EcophazWeb.UserView
 
-  @attributes ~w(id email name)
+  @attributes ~w(id email name)a
 
   def render("index.json", %{users: users}) do
     %{data: render_many(users, UserView, "user.json")}

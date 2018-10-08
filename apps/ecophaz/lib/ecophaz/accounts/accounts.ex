@@ -6,6 +6,8 @@ defmodule Ecophaz.Accounts do
     User
   }
 
+  alias Ecto.Changeset
+
   import Ecto.Query
 
   def create_token(attrs \\ %{}) do
@@ -38,14 +40,24 @@ defmodule Ecophaz.Accounts do
 
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user(id), do: Repo.get(User, id)
+
+  # @spec get_user_by(map()) :: %User{} | nil
   def get_user_by(params) do
     User |> Repo.get_by(params)
   end
 
-  @spec create_user(Map) :: {:ok, %User{}} | {:error, %Ecto.Changeset{}}
+  @spec create_user(map()) :: {:ok, %User{}} | {:error, %Ecto.Changeset{}}
   def create_user(params) do
     %User{}
     |> User.changeset(params)
     |> Repo.insert()
+  end
+
+  @spec update_user(%User{}, map()) :: {:ok, %User{}} | {:error, %Ecto.Changeset{}}
+  def update_user(user, params) do
+    user
+    |> User.changeset(params)
+    |> Repo.update()
   end
 end

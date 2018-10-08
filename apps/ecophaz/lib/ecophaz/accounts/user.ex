@@ -4,6 +4,18 @@ defmodule Ecophaz.Accounts.User do
   alias Ecophaz.Accounts.{AuthToken}
   alias Ecophaz.Content.{Like, Mood}
 
+  defimpl Inspect do
+    @sensitive_fields [
+      :name,
+      :email
+    ]
+    def inspect(user, opts) do
+      user
+      |> Map.drop(@sensitive_fields)
+      |> Inspect.Any.inspect(opts)
+    end
+  end
+
   @required_fields ~w(email password name)a
   @optional_fields ~w()a
 

@@ -41,14 +41,16 @@ defmodule EcophazWeb.Services.Authenticator do
            token,
            max_age: 86400
          ) do
-      {:ok, _id} -> {:ok, token}
+      {:ok, id} -> {:ok, token, id}
       error -> error
     end
   end
 
   def get_token(conn) do
-    case extract_token(conn) do
-      {:ok, token} -> verify_token(token)
+    with {:ok, token} <- extract_token(conn),
+         {:ok, token, _id} <- verify_token(token) do
+      {:ok, token}
+    else
       error -> error
     end
   end

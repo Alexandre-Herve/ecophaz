@@ -17,6 +17,8 @@ defmodule EcophazWeb.Router do
     delete "/sessions/sign_out", SessionsController, :delete
 
     post "/users/create", UserController, :create
+    post "/users/request_change_password", UserController, :request_change_password
+    post "/users/change_password", UserController, :change_password
   end
 
   scope "/api/v1/", EcophazWeb do

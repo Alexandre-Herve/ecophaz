@@ -13,3 +13,5 @@ config :ecophaz_web, EcophazWeb.Endpoint,
 config :ecophaz_web, :auth,
   seed: "user_token",
   secret: "CHANGE_ME_k7kTxvFAgeBvAVA0OR1vkPbTi8mZ5m"
+
+config :ecophaz_web, EcophazWeb.Mailer, adapter: Bamboo.TestAdapter
