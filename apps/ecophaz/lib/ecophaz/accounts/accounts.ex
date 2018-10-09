@@ -22,7 +22,17 @@ defmodule Ecophaz.Accounts do
     |> Repo.insert()
   end
 
+  def delete_tokens_for_user(user) do
+    user_id = user.id
+
+    AuthToken
+    |> where([a], a.user_id == ^user_id)
+    |> Repo.delete_all()
+  end
+
   def get_token!(id), do: Repo.get!(AuthToken, id)
+
+  def get_token(id), do: Repo.get(AuthToken, id)
 
   def get_token_by(params) do
     AuthToken

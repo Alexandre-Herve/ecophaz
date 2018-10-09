@@ -4,6 +4,7 @@ defmodule EcophazWeb.AuthControllerTest do
 
   import Ecophaz.Factory
 
+  alias Ecophaz.Accounts
   alias EcophazWeb.Services.Authenticator
 
   describe "create" do
@@ -58,10 +59,12 @@ defmodule EcophazWeb.AuthControllerTest do
       user = insert(:user)
       password = "Passw0rd!"
       token = Authenticator.generate_token("reset_password:#{user.id}")
+      user |> Accounts.create_token_for_user(%{token: token})
       params = %{"token" => token, "password" => password}
       conn = post(conn, Routes.user_path(conn, :change_password), params)
       assert response(conn, 200)
       assert {:ok, _token} = Authenticator.sign_in(user.email, password)
+      assert is_nil(Accounts.get_token_by(token: token))
     end
 
     test "returns an error for an invalid token", %{conn: conn} do

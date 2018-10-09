@@ -34,6 +34,7 @@ defmodule EcophazWeb.UserController do
     with {:ok, _token, "reset_password:" <> id} <- Authenticator.verify_token(token),
          %User{} = user <- Accounts.get_user(id),
          {:ok, %User{}} <- user |> Accounts.update_user(%{password: password}) do
+      user |> Accounts.delete_tokens_for_user()
       conn |> send_resp(200, "OK")
     else
       _ -> {:error, :not_found}
