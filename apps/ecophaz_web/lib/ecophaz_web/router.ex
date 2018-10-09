@@ -27,6 +27,6 @@ defmodule EcophazWeb.Router do
     resources "/moods", MoodController, except: [:new, :edit]
     post "/moods/:id/like", MoodController, :like
     delete "/moods/:id/unlike", MoodController, :unlike
-    get "/users/:id", UserController, :show
+    resources "/users", UserController, only: [:show]
   end
 end
