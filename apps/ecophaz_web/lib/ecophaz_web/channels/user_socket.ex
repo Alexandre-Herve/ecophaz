@@ -1,6 +1,10 @@
 defmodule EcophazWeb.UserSocket do
   use Phoenix.Socket
 
+  alias Ecophaz.Accounts
+  alias Ecophaz.Accounts.{AuthToken}
+  alias EcophazWeb.Services.Authenticator
+
   ## Channels
   # channel "mood:*", EcophazWeb.MoodChannel
 
@@ -15,8 +19,13 @@ defmodule EcophazWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket, _connect_info) do
+    with {:ok, token, _id} <- Authenticator.verify_token(token),
+         %AuthToken{user: user} <- Accounts.get_token_by(%{token: token}) do
+      {:ok, socket |> assign(:signed_user, user)}
+    else
+      _ -> :error
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

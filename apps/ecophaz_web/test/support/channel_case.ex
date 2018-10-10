@@ -14,6 +14,8 @@ defmodule EcophazWeb.ChannelCase do
   """
 
   use ExUnit.CaseTemplate
+  import Ecophaz.Factory
+  alias EcophazWeb.Services.Authenticator
 
   using do
     quote do

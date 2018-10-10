@@ -34,6 +34,7 @@ defmodule EcophazWeb.MoodController do
 
     with :ok <- is_authorized(user.id, mood.user_id),
          {:ok, %Mood{} = mood} <- Content.update_mood(mood, mood_params) do
+      EcophazWeb.MoodChannel.broadcast_change(mood)
       render(conn, "show.json", mood: mood)
     end
   end
